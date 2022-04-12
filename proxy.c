@@ -25,6 +25,7 @@ static void buildRequest(char * request, char * host,
 //
 int main(int argc, char **argv)
 {
+   //TODO
    return 1;
 }
 
@@ -54,6 +55,16 @@ void handleRequest(int connfd)
    char path[MAXLINE];    //path to table obtained from the request line
    char request[MAXBUF];  //request to send to origin server
 
+   //TODO
+   //1) call getRequest to read the request from the client
+
+   //2) check to see if the request is valid by calling isValid
+   
+   //3) if the request is valid then 
+   //   a) parse URI by calling parsing URI
+   //   b) build the request to send to the origin server by calling buildRequest
+   //   c) send request to the origin server and send response back to client by calling makeRequest
+
    return;
 }
 
@@ -70,6 +81,8 @@ void handleRequest(int connfd)
 void buildRequest(char * request, char * host, char * path, char * version)
 {
    char *userAgentHdr = "Mozilla/5.0 (X11; Linux x86_64; rv:10.0.3) Gecko/20120305 Firefox/10.0.3";
+   //TODO
+   //use sprintfs to write to request array
    return;
 }
 
@@ -95,6 +108,24 @@ void buildRequest(char * request, char * host, char * path, char * version)
 void makeRequest(int connfd, char * uri, char * request, 
                  char * host, char * port)
 {
+   //TODO
+   //Call findCacheItem to see object is cached and if it is
+   //then use Rio_writen to write to the connected socket (connfd)
+   //(Initially, write the code without using caching. Incremental development!)
+   //
+   //Otherwise, 
+   //   a) open connection with origin server
+   //   b) write request to origin server
+   //   c) allocate space using Calloc to hold response
+   //   d) read the response in a loop using Rio_readlineb until there is no
+   //      more to be read and copy response to the dynamically allocated space.
+   //      Also, write the response to the connected socket.
+   //
+   //If caching, then call addCacheItem if the size of the object is
+   //smaller than the MAX_OBJECT_SIZE; otherwise, delete the dynamically
+   //allocated object. 
+   //
+   //Close the connected socket
    return;
 }
 
@@ -105,6 +136,9 @@ void makeRequest(int connfd, char * uri, char * request,
 //          port is 12345
 void getPort(char * port, char * uri)
 {
+   //TODO
+   //note port is between the second ':' and the third '/'
+   //If no second colon then set port to "80"
    return;
 }
 
@@ -115,6 +149,10 @@ void getPort(char * port, char * uri)
 //           host is localhost
 void getHost(char * host, char * uri)
 {
+   //TODO
+   //note host is between the second '/' and the second ':'
+   //If there isn't a second ':' the host is between the
+   //second '/' and the third '/'
    return;
 }
 
@@ -124,6 +162,9 @@ void getHost(char * host, char * uri)
 //           path is /godzilla.jpg
 void getPath(char * path, char * uri)
 {
+   //TODO
+   //note path starts at the third '/' and goes to the end
+   //of the line (use strlen)
    return;
 }
 
@@ -132,9 +173,13 @@ void getPath(char * path, char * uri)
 // the uri. host may have been already obtained from a
 // Host: header liner.
 //
-// Helper functions: getHost, getPort, getPath, various C functions
+// Helper functions: getHost, getPort, getPath
 void parseURI(char * uri, char * host, char * path, char * port)
 {
+   //TODO
+   //call getHost if host is strlen(host) is 0
+   //call getPath to get the path
+   //call getPort to get the port
    return;
 }
 
@@ -154,6 +199,25 @@ void parseURI(char * uri, char * host, char * path, char * port)
 void getRequest(int connfd, char * method, char * uri, 
                 char * version, char * host)
 {
+
+   //TODO
+   //First, read the request line (see read_requesthdrs in tiny.c)
+   //Then use your cstring functions to grab the method, uri, and
+   //version from the request line
+   //request line can look like: GET http://student2.cs.appstate.edu/~can HTTP/1.1
+   //Note that a single space is between each of the three fields
+   //
+   //Next, use a loop to read the remaining headers of the request until a single
+   //line with "\r\n" has been read.
+   //In the loop body, look for "Host:" If present then grab value for host from
+   //that line.
+   //host header line could look like: 
+   //Host: localhost:8080
+   //or
+   //Host: student2.cs.appstate.edu
+   //The first would cause host to be set to "localhost".
+   //The second would cause host to be set to "student2.cs.appstate.edu"
+   //
    return;
 }
 
@@ -163,6 +227,8 @@ void getRequest(int connfd, char * method, char * uri,
 // Otherwise this function returns 0.
 int isValid(char * method, char * version)
 {
+   //TODO
+   //use strcmp to check for the valid method and versions
    return 0;
 }
    

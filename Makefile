@@ -4,7 +4,19 @@
 CC = gcc
 CFLAGS = -g -Wall -Wno-unused-variable -Wno-unused-function
 
-all: proxy
+all: proxy cstringTester
+
+cstringTester: cstringTester.o cstring.o
+	$(CC) cstringTester.o cstring.o -o cstringTester
+
+proxy: proxy.o csapp.o cache.o cstring.o
+	$(CC) $(CFLAGS) proxy.o csapp.o cache.o cstring.o -o proxy -lpthread
+
+cstringTester.o: cstringTester.c
+	$(CC) $(CFLAGS) -c cstringTester.c
+
+cstring.o: cstring.c
+	$(CC) $(CFLAGS) -c cstring.c
 
 csapp.o: csapp.c csapp.h
 	$(CC) $(CFLAGS) -c csapp.c
@@ -12,12 +24,9 @@ csapp.o: csapp.c csapp.h
 cache.o: cache.c cache.h
 	$(CC) $(CFLAGS) -c cache.c
 
-proxy.o: proxy.c csapp.h
+proxy.o: proxy.c csapp.h cstring.h
 	$(CC) $(CFLAGS) -c proxy.c
 
-proxy: proxy.o csapp.o cache.o
-	$(CC) $(CFLAGS) proxy.o csapp.o cache.o -o proxy -lpthread
-
 clean:
-	rm -f *~ *.o proxy core *.tar *.zip *.gzip *.bzip *.gz
+	rm -f *~ *.o cstringTester proxy core *.tar *.zip *.gzip *.bzip *.gz
 

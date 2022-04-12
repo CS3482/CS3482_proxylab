@@ -12,8 +12,8 @@
 # 
 
 # Point values
-MAX_BASIC=40
-MAX_CACHE=40
+MAX_BASIC=64
+MAX_CACHE=24
 
 # Various constants
 HOME_DIR=`pwd`
@@ -255,7 +255,7 @@ do
     echo "   Comparing the two files"
     diff -q ${PROXY_DIR}/${outfile} ${NOPROXY_DIR}/${outfile} &> /dev/null
     if [ $? -eq 0 ]; then
-        basicScore=`expr ${basicScore} + 5`
+        basicScore=`expr ${basicScore} + 8`
         echo "   Success: Files are identical."
     else
         echo "   Failure: Files differ."
@@ -331,7 +331,7 @@ do
     download_proxy $NOPROXY_DIR ${outfile} "http://localhost:${tiny_port}/${file}" "http://localhost:${proxy_port}"
     diff -q ${PROXY_DIR}/${outfile} ${NOPROXY_DIR}/${outfile}  &> /dev/null
     if [ $? -eq 0 ]; then
-        cacheScore=`expr ${cacheScore} + 5`
+        cacheScore=`expr ${cacheScore} + 3`
         echo "   Success: Was able to fetch tiny/${file} from the cache."
     else
         echo "   Failure: Was not able to fetch tiny/${file} from the cache."
@@ -351,7 +351,7 @@ do
     if [ $? -eq 0 ]; then
         echo "   Failure: Was able to fetch tiny/${file} from the cache."
     else
-        cacheScore=`expr ${cacheScore} + 5`
+        cacheScore=`expr ${cacheScore} + 3`
         echo "   Success: Was not able to fetch tiny/${file} from the cache."
     fi
 done
