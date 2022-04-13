@@ -8,9 +8,9 @@ static void getRequest(int connfd, char * method, char * uri,
                        char * version, char * host);
 static int isValid(char * method, char * version);
 static void parseURI(char * uri, char * host, char * path, char * port);
-static void getPort(char * port, char * str);
-static void getPath(char * port, char * str);
-static void getHost(char * port, char * str);
+static void getPort(char * port, char * uri);
+static void getPath(char * path, char * uri);
+static void getHost(char * host, char * uri);
 static void makeRequest(int connfd, char * uri, char * request, 
                         char * host, char * port);
 static void buildRequest(char * request, char * host,
