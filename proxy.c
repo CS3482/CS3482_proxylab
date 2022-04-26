@@ -26,6 +26,14 @@ static void buildRequest(char * request, char * host,
 int main(int argc, char **argv)
 {
    //TODO
+   //
+   //This is the part of the proxy where it is acting as a server!
+   //
+   //Create a listening socket by calling Open_listenfd and
+   //then loop forever.
+   //In the loop, accept the connection request, call handleRequest
+   //to handle the request, and close the connection
+   //See main in tiny.c
    return 1;
 }
 
@@ -61,7 +69,7 @@ void handleRequest(int connfd)
    //2) check to see if the request is valid by calling isValid
    
    //3) if the request is valid then 
-   //   a) parse URI by calling parsing URI
+   //   a) parse URI by calling parseURI
    //   b) build the request to send to the origin server by calling buildRequest
    //   c) send request to the origin server and send response back to client by calling makeRequest
 
@@ -82,7 +90,7 @@ void buildRequest(char * request, char * host, char * path, char * version)
 {
    char *userAgentHdr = "Mozilla/5.0 (X11; Linux x86_64; rv:10.0.3) Gecko/20120305 Firefox/10.0.3";
    //TODO
-   //use sprintfs to write to request array
+   //use sprintfs to write to request array (see serve_static)
    return;
 }
 
@@ -110,16 +118,22 @@ void makeRequest(int connfd, char * uri, char * request,
 {
    //TODO
    //Call findCacheItem to see object is cached and if it is
-   //then use Rio_writen to write to the connected socket (connfd)
+   //then use Rio_writen to write it to the connected socket (connfd)
    //(Initially, write the code without using caching. Incremental development!)
    //
    //Otherwise, 
+   //   This is where the proxy acts like a client!
    //   a) open connection with origin server
    //   b) write request to origin server
-   //   c) allocate space using Calloc to hold response
+   //   c) allocate space using Calloc to hold response (don't do this until
+   //      you add the caching code)
    //   d) read the response in a loop using Rio_readlineb until there is no
-   //      more to be read and copy response to the dynamically allocated space.
-   //      Also, write the response to the connected socket.
+   //      more to be read and write the response to the connected socket.
+   //      Also, for caching, copy response to the appropriate spot in the
+   //      dynamically allocated space.
+   //      Note: Rio_readlineb returns the number of bytes that are read.
+   //      Note: the third parameter to Rio_writen is the number of bytes 
+   //            to write to socket
    //
    //If caching, then call addCacheItem if the size of the object is
    //smaller than the MAX_OBJECT_SIZE; otherwise, delete the dynamically
@@ -217,6 +231,7 @@ void getRequest(int connfd, char * method, char * uri,
    //Host: student2.cs.appstate.edu
    //The first would cause host to be set to "localhost".
    //The second would cause host to be set to "student2.cs.appstate.edu"
+   //Ignore the port if there is one.
    //
    return;
 }
