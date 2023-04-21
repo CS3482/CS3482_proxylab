@@ -25,14 +25,26 @@ static void buildRequest(char * request, char * host,
 //
 int main(int argc, char **argv)
 {
+
+   //if extra args or too few args 
+   if (argc != 2)
+   {
+      fprintf(stderr, "usage: %s <port>\n", argv[0]);
+      exit(1);
+   }
+   cacheInit(); //initialize cache to caching web objects
+   
    //TODO
    //
    //This is the part of the proxy where it is acting as a server!
    //
    //Create a listening socket by calling Open_listenfd and
    //then loop forever.
-   //In the loop, accept the connection request, call handleRequest
-   //to handle the request, and close the connection
+   //In the loop:
+   // 1) accept the connection request
+   // 2) printed a message about the client: (hostname, port)
+   // 3) call handleRequest to handle the request
+   // 4) close the connection
    //See main in tiny.c
    return 1;
 }
@@ -65,13 +77,17 @@ void handleRequest(int connfd)
 
    //TODO
    //1) call getRequest to read the request from the client
-
+   //   method, uri, version, and potentially, host and port arrays
+   //   are filled by call
+   //
    //2) check to see if the request is valid by calling isValid
-   
+   //    
    //3) if the request is valid then 
-   //   a) parse URI by calling parseURI
+   //   a) parse URI by calling parseURI (fills host, path, port arrays)
    //   b) build the request to send to the origin server by calling buildRequest
-   //   c) send request to the origin server and send response back to client by calling makeRequest
+   //      (fills request array)
+   //   c) send request to the origin server and send response back to client by 
+   //      calling makeRequest
 
    return;
 }
@@ -153,6 +169,7 @@ void getPort(char * port, char * uri)
    //TODO
    //note port is between the second ':' and the third '/'
    //If no second colon then set port to "80"
+   //Use your indexOf and buildCString functions
    return;
 }
 
@@ -167,6 +184,7 @@ void getHost(char * host, char * uri)
    //note host is between the second '/' and the second ':'
    //If there isn't a second ':' the host is between the
    //second '/' and the third '/'
+   //Use your indexOf and buildCString functions
    return;
 }
 
@@ -178,7 +196,7 @@ void getPath(char * path, char * uri)
 {
    //TODO
    //note path starts at the third '/' and goes to the end
-   //of the line (use strlen)
+   //of the line (use indexOf and strlen)
    return;
 }
 

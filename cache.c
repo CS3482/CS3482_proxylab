@@ -3,22 +3,22 @@
 #include "cache.h"
 
 //cache items are kept in a doubly linked list
-typedef struct cacheList cacheList;
-struct cacheList
+typedef struct cacheNodeT cacheNodeT;
+struct cacheNodeT
 {
    cacheItem * item;  //cacheItem is defined in cache.h
-   cacheList * prev;
-   cacheList * next;
+   cacheNodeT * prev;
+   cacheNodeT * next;
 };
 
 //The keyword static here makes these global variables
 //and functions inaccessible outside of this file.
 
 //pointer to the first node in the list
-static cacheList * first;   
+static cacheNodeT * first;   
 
 //pointer to the last node in the list
-static cacheList * last;
+static cacheNodeT * last;
 
 //sum of the sizes of all of the items in the list
 static int currSize;
@@ -26,7 +26,7 @@ static int currSize;
 //functions that are only accessible to functions
 //in this file
 static void evict();
-static void moveToFront(cacheList * ptr);
+static void moveToFront(cacheNodeT * ptr);
 
 //cacheInit
 //Initialize first and last to NULL and currSize to 0.
@@ -37,7 +37,7 @@ void cacheInit()
 }
 
 //findCacheItem
-//Search through the cacheList to try to find
+//Search through the cacheNodeT to try to find
 //the item with the provided url.
 //If found, move the node containing the cacheItem
 //to the front of the list (using moveToFront)
@@ -46,7 +46,7 @@ void cacheInit()
 cacheItem * findCacheItem(char * url)
 {
    //TODO
-   //You'll need a cacheList * variable to iterate through
+   //You'll need a cacheNodeT * variable to iterate through
    //the linked list of cache objects.
    //
    //Use strcmp to see if the url stored with the cacheItem
@@ -61,19 +61,19 @@ cacheItem * findCacheItem(char * url)
 }
 
 //moveToFront
-//Move the node pointed to by cacheList to the
-//front of the cacheList. This is used to
+//Move the node pointed to by cacheNodeT to the
+//front of the cacheNodeT. This is used to
 //implement the LRU policy.  The most recently
 //used cache item is in the front of the list.
 //The least recently used is at the end.
-void moveToFront(cacheList * ptr)
+void moveToFront(cacheNodeT * ptr)
 {
    //TODO
    //You have three cases that you need to handle
-   //a) the cacheList object is already in the front of the list
+   //a) the cacheNodeT object is already in the front of the list
    //   i.e., ptr == first
-   //b) the cacheList object is the last one in the list. In this
-   //   case you'll need to update last and the prev field of the new
+   //b) the cacheNodeT object is the last one in the list. In this
+   //   case you'll need to update last and the next field of the new
    //   last object (as well as first and the new first object)
    //
    //c) not a) or b) (Drawing pictures helps!)
@@ -83,9 +83,9 @@ void moveToFront(cacheList * ptr)
 //addCacheItem
 //This function takes a new item to add to the cache.
 //You will need to dynamically allocate a cacheItem object 
-//and a cacheList object and initialize the fields of
+//and a cacheNodeT object and initialize the fields of
 //those objects. first will need to be modified to point
-//to the new cacheList object.  last will need to be modified
+//to the new cacheNodeT object.  last will need to be modified
 //if it is currently NULL.
 //If the adding the item to the cache would cause the
 //size of the cache to exceed MAX_CACHE_SIZE, evict is
@@ -98,11 +98,11 @@ void addCacheItem(char * url, char * content, int size)
    //and initialize its content, size, and url fields
    //(See definition of cacheItem type in cache.h)
    //
-   //Second, dynamically allocate a new cacheList object.
+   //Second, dynamically allocate a new cacheNodeT object.
    //It's item field will be set to the pointer to the new
    //cacheItem object.
    //
-   //Third, insert the new cacheList object into the linked list.
+   //Third, insert the new cacheNodeT object into the linked list.
    //You have two cases to handle:
    //a) first is NULL
    //b) first isn't NULL
@@ -119,10 +119,10 @@ void addCacheItem(char * url, char * content, int size)
 void evict()
 {
    //TODO
-   //Loop starting with the last cacheList object and iterating
+   //Loop starting with the last cacheNodeT object and iterating
    //toward the first object. Delete the object pointed to
-   //by last and set last to the new last cacheList object. Adjust 
-   //currSize each time a cacheList object is deleted.  Repeat
+   //by last and set last to the new last cacheNodeT object. Adjust 
+   //currSize each time a cacheNodeT object is deleted.  Repeat
    //while currSize is greater than MAX_CACHE_SIZE:
    return;
 }
@@ -132,7 +132,7 @@ void evict()
 //to make sure the prev and next pointers are both correct.
 void printCacheList()
 {
-   cacheList * iter;
+   cacheNodeT * iter;
    printf("printing forwards\n");
    for (iter = first; iter != NULL; iter = iter->next)
    {

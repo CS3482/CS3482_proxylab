@@ -4,8 +4,11 @@
 
 //
 // Takes as input a C-string, a character, and a count
-// and returns the index of appearance number count of that
-// character in C-string. -1 is returned if the character
+// and returns the index of the count appearance of that
+// character in C-string. For example, if the character is
+// '.' and the count is 3 then the function will return the
+// index of the third appearance of the character '.'
+// -1 is returned if the character
 // doesn't appear that number of times.
 //
 // Example: indexOf("student2.cs.appstate.edu", '.', 1) returns 8
@@ -22,9 +25,9 @@ int indexOf(char * cstr, char whatChar, int whichCt)
 }
 
 //
-// Copies characters cstr[startIdx] through cstr[endIdx] into result
+// Copies the characters cstr[startIdx] through cstr[endIdx] into result
 // and places a NULL character ('\0') after the last character so that
-// result holds a C-string.
+// the result holds a C-string.
 //
 // Example: buildCstring(result, "http://localhost:8080/index.html", 7, 16)
 //          will set result to "localhost"
